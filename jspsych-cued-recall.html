@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jsPsych cued recall demo</title>
+    <script src="jspsych-6.2.0/jspsych.js"></script>
+    <script src="jspsych-6.2.0/plugins/jspsych-html-button-response.js"></script>
+    <script src="jspsych-cued-recall.js"></script>
+    <link rel="stylesheet" href="jspsych-6.2.0/css/jspsych.css">
+</head>
+<body></body>
+<script>
+
+    var timeline = [];
+
+    var welcome = {
+        type: 'html-button-response',
+        stimulus: '<p>Welcome to the experiment!</p>',
+        choices: ['Start']
+    }
+    timeline.push(welcome);
+
+    var trial_1 = {
+        type: 'cued-recall',
+        stimulus: '<p><strong>All or%% are fruit.</strong></p>',
+        text_box_columns: 10,
+        text_box_location: 'stimulus',
+        text_box_justify: 'left',
+        allow_submit_key: true,
+        prompt: '<p>Response box is embedded in the stimulus text.</p>'
+    };
+    timeline.push(trial_1);
+
+    var trial_2 = {
+        type: 'cued-recall',
+        stimulus: '<p><strong>All or%% are fruit.</strong></p>',
+        allow_submit_key: true,
+        prompt: '<p>Response box is below the stimulus text.</p>'
+    };
+    timeline.push(trial_2);
+
+    var trial_3 = {
+        type: 'cued-recall',
+        stimulus: '<p><strong>All %% are fruit.</strong></p>',
+        show_submit_button: false,
+        trial_duration: 5000,
+        prompt: '<p>No submit button or key. Trial ends after 5 seconds.</p>'
+    };
+    timeline.push(trial_3);
+
+    var trial_4 = {
+        type: 'cued-recall',
+        stimulus: '<p><strong>All %% are fruit.</strong></p>',
+        text_box_columns: 20,
+        show_submit_button: false,
+        trial_duration: 30000,
+        print_responses: true,
+        print_response_key: 'enter',
+        prompt: '<p>Add a response, then press enter.<br/>Continue responding until the trial times out (30 seconds).</p>'
+    };
+    timeline.push(trial_4);
+
+    jsPsych.init({
+        timeline: timeline,
+        on_finish: function() {
+            jsPsych.data.displayData();
+        },
+    });
+</script>
+</html>
