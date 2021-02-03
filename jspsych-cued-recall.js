@@ -93,7 +93,7 @@ jsPsych.plugins['cued-recall'] = (function () {
                 pretty_name: 'Show submit button',
                 default: true,
                 description: 'Whether or not to show a submit button on the screen that the participant can click to end the trial. '+
-                'If false, then the trial should end either with a key press () or by timing out (trial_duration not null).'
+                'If false, then the trial should end either with a key press (allow_submit_key is true) or by timing out (trial_duration is not null).'
             },
             submit_button_label: {
                 type: jsPsych.plugins.parameterType.STRING,
@@ -120,7 +120,8 @@ jsPsych.plugins['cued-recall'] = (function () {
                 pretty_name: 'Print responses',
                 default: false,
                 description: 'Whether or not to allow multiple responses, and print each one to the screen using '+
-                'a specific key press (e.g. enter). If true, '
+                'a specific key press (e.g. enter). If true, multiple responses will be recorded until the trial ends via '+
+                'a sumbit_key keypress or trial_duration is reached.'
             },
             print_response_key: {
                 type: jsPsych.plugins.parameterType.BOOL,
@@ -143,7 +144,7 @@ jsPsych.plugins['cued-recall'] = (function () {
                 default: null,
                 description: 'How long to wait (in ms) before ending the trial. If no response is made before this timer is reached, the response will be recorded as null '+
                 'and the trial will end. If the value of this parameter is null, the trial will wait for a response indefinitely, '+
-                'so the participant should be allowed to end the trial with a submit button (show_submit_button: true) and/or key press: ().'
+                'so the participant should be allowed to end the trial with a submit button (show_submit_button: true) and/or key press: (allow_submit_key: true).'
             },
             check_answers: {
                 type: jsPsych.plugins.parameterType.BOOL,
@@ -155,9 +156,10 @@ jsPsych.plugins['cued-recall'] = (function () {
             mistake_fn: {
                 type: jsPsych.plugins.parameterType.FUNCTION,
                 pretty_name: 'Mistake function',
-                default: function () {},
-                description: 'Function called if check_answers is set to TRUE and there is a difference between the '+
-                'participants answers and the correct solution provided in the text.'
+                default: function (resp) {},
+                description: 'Function called if check_answers is true and there is a difference between the '+
+                'participants answer and the correct solution provided (correct_response). The participants response '+
+                'string is automatically passed to this function.'
             }
         }
     };
@@ -276,7 +278,7 @@ jsPsych.plugins['cued-recall'] = (function () {
                 end_trial();
             } else {
                 response_start_time = performance.now(); // get a new start time, in case we want to record an RT starting from when the mistake fn is called
-                trial.mistake_fn();
+                trial.mistake_fn(current_response);
             }  
         };
 
