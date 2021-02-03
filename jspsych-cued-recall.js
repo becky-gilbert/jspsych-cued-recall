@@ -248,16 +248,21 @@ jsPsych.plugins['cued-recall'] = (function () {
         }
 
         function print_response() {
-            var current_response = document.getElementById('jspsych-cued-recall-response-0').value;
-            answers.push(current_response);
+            var resp_time = performance.now() - response_start_time;
+            var current_response = document.getElementById('jspsych-cued-recall-response-0').value.trim();
+            var resp = {response: current_response, rt: resp_time};
+            answers.push(resp);
             display_element.innerHTML += current_response+'<br/>';
             document.getElementById('jspsych-cued-recall-response-0').focus();
+            response_start_time = performance.now();
         }
                 
         function check_responses() {
             for (var i=0; i<solutions.length; i++) {
-                var field = document.getElementById('jspsych-cued-recall-response-'+i);
-                answers.push(field.value.trim());
+                var resp_time = performance.now() - response_start_time;
+                var current_response = document.getElementById('jspsych-cued-recall-response-'+i).value.trim();
+                var resp = {response: current_response, rt: resp_time};
+                answers.push(resp);
                 if (trial.check_answers) {
                     if (answers[i] !== solutions[i]) {
                         field.style.color = 'red';
@@ -270,6 +275,7 @@ jsPsych.plugins['cued-recall'] = (function () {
             if (!trial.check_answers || (trial.check_answers && answers_correct)) {
                 end_trial();
             } else {
+                response_start_time = performance.now(); // get a new start time, in case we want to record an RT starting from when the mistake fn is called
                 trial.mistake_fn();
             }  
         };
@@ -300,6 +306,7 @@ jsPsych.plugins['cued-recall'] = (function () {
         document.querySelector('#jspsych-cued-recall-response-0').focus();
 
         var start_time = performance.now();
+        var response_start_time = performance.now();
 
         if (trial.trial_duration !== null) {
             jsPsych.pluginAPI.setTimeout(check_responses, trial.trial_duration);
