@@ -158,7 +158,7 @@ jsPsych.plugins['cued-recall'] = (function () {
                 pretty_name: 'Mistake function',
                 default: function (resp) {},
                 description: 'Function called if check_answers is true and there is a difference between the '+
-                'participants answer and the correct solution provided (correct_response). The participants response '+
+                'participants answer and the correct solution in the stimulus text (between %% signs). The participants response '+
                 'string is automatically passed to this function.'
             }
         }
@@ -235,7 +235,7 @@ jsPsych.plugins['cued-recall'] = (function () {
                 valid_responses: [trial.submit_key],
                 rt_method: 'performance',
                 allow_held_key: false,
-                persist: false
+                persist: true
             });
         }
 
@@ -262,11 +262,12 @@ jsPsych.plugins['cued-recall'] = (function () {
         function check_responses() {
             for (var i=0; i<solutions.length; i++) {
                 var resp_time = performance.now() - response_start_time;
-                var current_response = document.getElementById('jspsych-cued-recall-response-'+i).value.trim();
+                var field = document.getElementById('jspsych-cued-recall-response-'+i)
+                var current_response = field.value.trim();
                 var resp = {response: current_response, rt: resp_time};
                 answers.push(resp);
                 if (trial.check_answers) {
-                    if (answers[i] !== solutions[i]) {
+                    if (current_response !== solutions[i]) {
                         field.style.color = 'red';
                         answers_correct = false;
                     } else {
@@ -279,6 +280,7 @@ jsPsych.plugins['cued-recall'] = (function () {
             } else {
                 response_start_time = performance.now(); // get a new start time, in case we want to record an RT starting from when the mistake fn is called
                 trial.mistake_fn(current_response);
+                answers_correct = true;
             }  
         };
 
@@ -287,7 +289,7 @@ jsPsych.plugins['cued-recall'] = (function () {
             var trial_duration = performance.now() - start_time;
             var trial_data = {
                 'trial_duration': trial_duration,
-                'answers' : JSON.stringify(answers)
+                'answers': JSON.stringify(answers)
             };
             // clear any timers
             jsPsych.pluginAPI.clearAllTimeouts();

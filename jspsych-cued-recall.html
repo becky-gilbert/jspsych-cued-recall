@@ -26,7 +26,8 @@
         text_box_location: 'stimulus',
         text_box_justify: 'left',
         allow_submit_key: true,
-        prompt: '<p>Response box is embedded in the stimulus text.</p>'
+        prompt: '<p>Response box is embedded in the stimulus text.</p>',
+        data: {demo: 'response box embedded in stimulus'}
     };
     timeline.push(trial_1);
 
@@ -34,7 +35,8 @@
         type: 'cued-recall',
         stimulus: '<p><strong>All or%% are fruit.</strong></p>',
         allow_submit_key: true,
-        prompt: '<p>Response box is below the stimulus text.</p>'
+        prompt: '<p>Response box is below the stimulus text.</p>',
+        data: {demo: 'response box below stimulus'}
     };
     timeline.push(trial_2);
 
@@ -43,12 +45,29 @@
         stimulus: '<p><strong>All %% are fruit.</strong></p>',
         blank_text_length: 20,
         show_submit_button: false,
-        trial_duration: 5000,
-        prompt: '<p>No submit button or key. Trial ends after 5 seconds.</p>'
+        trial_duration: 3000,
+        prompt: '<p>No submit button or key. Trial ends after 3 seconds.</p>',
+        data: {demo: 'trial times out'}
     };
     timeline.push(trial_3);
 
     var trial_4 = {
+        type: 'cued-recall',
+        stimulus: '<p><strong>All %oranges% are fruit.</strong></p>',
+        blank_text_length: 10,
+        show_submit_button: true,
+        allow_submit_key: true,
+        prompt: '<p>The correct response is "oranges". You must enter "oranges" to continue.<br>'+
+        'Press Enter or click the Submit button to submit your response.</p>',
+        check_answers: true,
+        mistake_fn: function(resp) {
+            alert('The response "'+resp+'" is not correct. Please enter the correct response.')
+        },
+        data: {demo: 'check_answers is true with a custom mistake function'}
+    };
+    timeline.push(trial_4);
+
+    var trial_5 = {
         type: 'cued-recall',
         stimulus: '<p><strong>All %% are fruit.</strong></p>',
         text_box_columns: 20,
@@ -56,9 +75,10 @@
         trial_duration: 30000,
         print_responses: true,
         print_response_key: 'enter',
-        prompt: '<p>Add a response, then press enter.<br/>Continue responding until the trial times out (30 seconds).</p>'
+        prompt: '<p>Add a response, then press enter.<br/>Continue responding until the trial times out (30 seconds).</p>',
+        data: {demo: 'print_responses is true to allow multiple responses'}
     };
-    timeline.push(trial_4);
+    timeline.push(trial_5);
 
     jsPsych.init({
         timeline: timeline,
