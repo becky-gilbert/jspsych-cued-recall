@@ -261,7 +261,7 @@ jsPsych.plugins['cued-recall'] = (function () {
                 callback_function: check_responses,
                 valid_responses: [trial.submit_key],
                 rt_method: 'performance',
-                allow_held_key: false,
+                allow_held_key: true,
                 persist: true
             });
         }
@@ -287,6 +287,7 @@ jsPsych.plugins['cued-recall'] = (function () {
         }
                 
         function check_responses() {
+            console.log('check responses called');
             for (var i=0; i<solutions.length; i++) {
                 var resp_time = performance.now() - response_start_time;
                 var field = document.getElementById('jspsych-cued-recall-response-'+i)
