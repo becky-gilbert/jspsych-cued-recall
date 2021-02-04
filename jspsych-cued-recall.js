@@ -81,6 +81,18 @@ jsPsych.plugins['cued-recall'] = (function () {
                 default: 4,
                 description: 'Padding (in px) between text and right side of response box(es).'
             },
+            background_color: {
+                type: jsPsych.plugins.parameterType.STRING,
+                pretty_name: 'Background color',
+                default: null,
+                description: 'Page background color. Can be specified as a CSS color name, RGB or hex value.'
+            },
+            element_color: {
+                type: jsPsych.plugins.parameterType.STRING,
+                pretty_name: 'Element color',
+                default: null,
+                description: 'Color of the non-background elements, i.e. text and textbox(es). Can be specified as a CSS color name, RGB or hex value.'
+            },
             blank_text_length: {
                 type: jsPsych.plugins.parameterType.INT,
                 pretty_name: 'Blank text length',
@@ -178,6 +190,18 @@ jsPsych.plugins['cued-recall'] = (function () {
             "via 'show_submit_button: true', 'allow_submit_key: true', and/or providing a time limit with 'trial_duration'.")
         }
 
+        // change background/element colors, if necessary
+        var el_color;
+        var bg_color;
+        if (trial.background_color !== null) {
+            bg_color = trial.background_color;
+            document.getElementsByTagName('body')[0].style.backgroundColor = bg_color;
+        }
+        if (trial.element_color !== null) {
+            el_color = trial.element_color;
+            document.getElementsByTagName('body')[0].style.color = el_color;
+        }
+
         var elements = trial.stimulus.split('%');
         var solutions = [];
         var answers = [];
@@ -201,6 +225,7 @@ jsPsych.plugins['cued-recall'] = (function () {
                     html += '<input type="text" class="jspsych-cued-recall-response" id="jspsych-cued-recall-response-'+(solutions.length-1)+'" '+
                     'value="" size="'+trial.text_box_columns+'" '+
                     'style="font-size:'+trial.text_box_font_size+'px; '+
+                    'color: inherit; background-color: inherit; '+
                     'padding-top:'+trial.text_box_padding_top+'px; padding-bottom:'+trial.text_box_padding_bottom+'px; '+
                     'padding-right:'+trial.text_box_padding_right+'px; padding-left:'+trial.text_box_padding_left+'px; '+
                     'text-align:'+trial.text_box_justify+'">';
@@ -214,6 +239,7 @@ jsPsych.plugins['cued-recall'] = (function () {
             html += '<input type="text" class="jspsych-cued-recall-response" id="jspsych-cued-recall-response-0" '+
             'value="" size="'+trial.text_box_columns+'" '+
             'style="font-size:'+trial.text_box_font_size+'px; '+
+            'color: inherit; background-color: inherit; border-style: solid; '+
             'padding-top:'+trial.text_box_padding_top+'px; padding-bottom:'+trial.text_box_padding_bottom+'px; '+
             'padding-right:'+trial.text_box_padding_right+'px; padding-left:'+trial.text_box_padding_left+'px; '+
             'text-align:'+trial.text_box_justify+'">';
@@ -222,7 +248,8 @@ jsPsych.plugins['cued-recall'] = (function () {
 
         // add submit button HTML
         if (trial.show_submit_button) {
-            html += '<div id="jspsych-cued-recall-btn-container" style="margin-top:20px";><button class="jspsych-btn" type="button" id="jspsych-cued-recall-submit">'+
+            html += '<div id="jspsych-cued-recall-btn-container" style="margin-top:20px";><button class="jspsych-btn" type="button" '+
+            ' id="jspsych-cued-recall-submit" style="color: inherit; background-color: inherit;">'+
             trial.submit_button_label+'</button></div>';
         }
         html += '</div>';
@@ -289,7 +316,9 @@ jsPsych.plugins['cued-recall'] = (function () {
             var trial_duration = performance.now() - start_time;
             var trial_data = {
                 'trial_duration': trial_duration,
-                'answers': JSON.stringify(answers)
+                'answers': JSON.stringify(answers),
+                'background_color': bg_color,
+                'element_color': el_color
             };
             // clear any timers
             jsPsych.pluginAPI.clearAllTimeouts();
@@ -297,6 +326,9 @@ jsPsych.plugins['cued-recall'] = (function () {
             jsPsych.pluginAPI.cancelAllKeyboardResponses();
             // clear display
             display_element.innerHTML = '';
+            // reset any changes to the body element's style
+            document.getElementsByTagName('body')[0].style.backgroundColor = "unset";
+            document.getElementsByTagName('body')[0].style.color = "unset";
             // end
             jsPsych.finishTrial(trial_data);
         }

@@ -27,7 +27,7 @@
         text_box_justify: 'left',
         allow_submit_key: true,
         prompt: '<p>Response box is embedded in the stimulus text.</p>',
-        data: {demo: 'response box embedded in stimulus'}
+        data: {demo: 'response box is embedded in stimulus'}
     };
     timeline.push(trial_1);
 
@@ -36,7 +36,7 @@
         stimulus: '<p><strong>All or%% are fruit.</strong></p>',
         allow_submit_key: true,
         prompt: '<p>Response box is below the stimulus text.</p>',
-        data: {demo: 'response box below stimulus'}
+        data: {demo: 'response box is below stimulus'}
     };
     timeline.push(trial_2);
 
@@ -76,15 +76,33 @@
         print_responses: true,
         print_response_key: 'enter',
         prompt: '<p>Add a response, then press enter.<br/>Continue responding until the trial times out (30 seconds).</p>',
-        data: {demo: 'print_responses is true to allow multiple responses'}
+        data: {demo: 'set print_responses to true to allow multiple responses'}
     };
     timeline.push(trial_5);
+
+    // background and element colors can be specified in several ways, including:
+    // CSS color keywords (e.g. 'silver'), 
+    // RGB(A) hex values (e.g. '#c0c0c0ff'), 
+    // RGB(A) functional notation (e.g. 'rgb(192, 192, 192, 1)''), 
+    // HSL(A) functional notation (e.g. 'hsl(0, 0%, 75%, 1)')
+    // see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value, https://www.w3schools.com/colors/colors_converter.asp
+    var trial_6 = {
+        type: 'cued-recall',
+        stimulus: '<p><strong>All %% are fruit.</strong></p>',
+        text_box_columns: 20,
+        show_submit_button: true,
+        allow_submit_key: true,
+        background_color: 'black', 
+        element_color: 'white',
+        data: {demo: 'changing background and element colors'}
+    };
+    timeline.push(trial_6);
 
     jsPsych.init({
         timeline: timeline,
         on_finish: function() {
             jsPsych.data.displayData();
-        },
+        }
     });
 </script>
 </html>
