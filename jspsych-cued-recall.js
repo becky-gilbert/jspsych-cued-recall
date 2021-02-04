@@ -287,7 +287,6 @@ jsPsych.plugins['cued-recall'] = (function () {
         }
                 
         function check_responses() {
-            console.log('check responses called');
             for (var i=0; i<solutions.length; i++) {
                 var resp_time = performance.now() - response_start_time;
                 var field = document.getElementById('jspsych-cued-recall-response-'+i)
