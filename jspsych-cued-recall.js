@@ -172,6 +172,15 @@ jsPsych.plugins['cued-recall'] = (function () {
                 description: 'Function called if check_answers is true and there is a difference between the '+
                 'participants answer and the correct solution in the stimulus text (between %% signs). The participants response '+
                 'string is automatically passed to this function.'
+            },
+            check_answers_case_sensitive: {
+                type: jsPsych.plugins.parameterType.BOOL,
+                pretty_name: 'Check answers - case sensitive',
+                default: false,
+                description: 'If check_answers is true, this boolean value indicates whether the participant and correct response '+
+                'comparison should be case-sensitive. If true, then the two responses will be compared exactly as given, and will '+
+                'not match if the case differs. If false (the default), both responses will be converted to lowercase before '+
+                'the comparison is made.'
             }
         }
     };
@@ -217,7 +226,7 @@ jsPsych.plugins['cued-recall'] = (function () {
             if (i%2 === 0) {
                 html += elements[i];
             } else {
-                solutions.push(elements[i].trim());
+                solutions.push(elements[i].trim()); // removes leading/trailing whitespace
                 if (trial.text_box_location == "below") {
                     var blank = Array(trial.blank_text_length).join("&nbsp;");
                     html += '<u>'+blank+'</u>';
@@ -290,11 +299,16 @@ jsPsych.plugins['cued-recall'] = (function () {
             for (var i=0; i<solutions.length; i++) {
                 var resp_time = performance.now() - response_start_time;
                 var field = document.getElementById('jspsych-cued-recall-response-'+i)
-                var current_response = field.value.trim();
+                var current_response = field.value.trim(); // removes leading/trailing whitespace
+                var current_solution = solutions[i];
                 var resp = {response: current_response, rt: resp_time};
                 answers.push(resp);
                 if (trial.check_answers) {
-                    if (current_response !== solutions[i]) {
+                    if (!trial.check_answers_case_sensitive) {
+                        current_response = current_response.toLowerCase();
+                        current_solution = current_solution.toLowerCase();
+                    }
+                    if (current_response !== current_solution) {
                         field.style.color = 'red';
                         answers_correct = false;
                     } else {
