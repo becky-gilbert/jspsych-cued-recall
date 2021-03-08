@@ -93,6 +93,13 @@ jsPsych.plugins['cued-recall'] = (function () {
                 default: null,
                 description: 'Color of the non-background elements, i.e. text and textbox(es). Can be specified as a CSS color name, RGB or hex value.'
             },
+            text_box_disabled_color: {
+                type: jsPsych.plugins.parameterType.STRING,
+                pretty_name: 'Text box disabled color',
+                default: null,
+                description: 'Color of the text box border and text when the text box is disabled (i.e. when there is a delay_after_submit). '+
+                'Can be specified as a CSS color name, RGB or hex value.'
+            },
             blank_text_length: {
                 type: jsPsych.plugins.parameterType.INT,
                 pretty_name: 'Blank text length',
@@ -150,13 +157,33 @@ jsPsych.plugins['cued-recall'] = (function () {
                 description: 'HTML-formatted string to be displayed above the stimulus. This can be used to provide a reminder about instructions, '+
                 'and can include any HTML markup, such as images, audio, etc.'
             },
+            prompt_location: {
+                type: jsPsych.plugins.parameterType.SELECT,
+                pretty_name: 'Prompt location',
+                default: 'below',
+                choices: ['below','above'],
+                description: 'Location for the prompt: either "below" or "above". If "below" (the default), '+
+                'the prompt is positioned below the stimulus text and response box. '+
+                'If "above", the prompt is positioned above the stimulus text and response box.'
+            },
             trial_duration: {
                 type: jsPsych.plugins.parameterType.INT,
                 pretty_name: 'Trial duration',
                 default: null,
-                description: 'How long to wait (in ms) before ending the trial. If no response is made before this timer is reached, the response will be recorded as null '+
-                'and the trial will end. If the value of this parameter is null, the trial will wait for a response indefinitely, '+
-                'so the participant should be allowed to end the trial with a submit button (show_submit_button: true) and/or key press: (allow_submit_key: true).'
+                description: 'How long to wait (in ms) before ending the trial. If no response is submitted before this timer is reached and check_answers is false, '+
+                'the response will be the current value of the input box and the trial will end. If no response is submitted before this timer is reached and check_answers is true, '+
+                'then the current value of the input box will be checked, and either the trial will end or the mistake_fn will be called.  '+
+                'If the value of this parameter is null, the trial will wait for a response indefinitely, '+
+                'so the participant must be allowed to end the trial with a submit button (show_submit_button: true) and/or key press: (allow_submit_key: true).'
+            },
+            delay_after_submit: {
+                type: jsPsych.plugins.parameterType.INT,
+                pretty_name: 'Delay after submit',
+                default: null,
+                description: 'How long to wait (in ms) after a response is submitted before ending the trial. This can be used to keep the stimulus and '+
+                'response on the screen for a fixed/longer duration. '+
+                'If null, the trial will end immediately after a response is submitted (when check_answers is false) or immediately after '+
+                'a correct response is made (when check_answers is true).'
             },
             check_answers: {
                 type: jsPsych.plugins.parameterType.BOOL,
@@ -168,10 +195,12 @@ jsPsych.plugins['cued-recall'] = (function () {
             mistake_fn: {
                 type: jsPsych.plugins.parameterType.FUNCTION,
                 pretty_name: 'Mistake function',
-                default: function (resp) {},
+                default: null,
                 description: 'Function called if check_answers is true and there is a difference between the '+
                 'participants answer and the correct solution in the stimulus text (between %% signs). The participants response '+
-                'string is automatically passed to this function.'
+                'string and the correct response are automatically passed to this function. If this function is specified, then '+
+                'a div with the ID jspsych-cued-recall-mistake will be added below the textbox/stimulus, which can be used to display '+
+                'a message via the mistake function. The contents of this div will be cleared when a correct response is made.'
             },
             check_answers_case_sensitive: {
                 type: jsPsych.plugins.parameterType.BOOL,
@@ -218,7 +247,7 @@ jsPsych.plugins['cued-recall'] = (function () {
 
         // create HTML string
         var html = '<div class="jspsych-cued-recall-container">';
-        if (trial.prompt !== "") {
+        if (trial.prompt !== "" && trial.prompt_location == "above") {
             html += trial.prompt;
         }
         html += '<div class="jspsych-cued-recall-stimulus-container">';
@@ -245,15 +274,23 @@ jsPsych.plugins['cued-recall'] = (function () {
         }
 
         if (trial.text_box_location == "below") {
-            html += '<input type="text" class="jspsych-cued-recall-response" id="jspsych-cued-recall-response-0" '+
+            html += '<p><input type="text" class="jspsych-cued-recall-response" id="jspsych-cued-recall-response-0" '+
             'value="" size="'+trial.text_box_columns+'" '+
             'style="font-size:'+trial.text_box_font_size+'px; '+
             'color: inherit; background-color: inherit; border-style: solid; '+
             'padding-top:'+trial.text_box_padding_top+'px; padding-bottom:'+trial.text_box_padding_bottom+'px; '+
             'padding-right:'+trial.text_box_padding_right+'px; padding-left:'+trial.text_box_padding_left+'px; '+
-            'text-align:'+trial.text_box_justify+'">';
+            'text-align:'+trial.text_box_justify+'"></p>';
         }
         html += '</div>';
+
+        if (trial.mistake_fn !== null) {
+            html += '<div id="jspsych-cued-recall-mistake" style="margin-top:5px;margin-bottom:5px;color:red;height:2.2em;line-height:1.1;overflow:auto;"></div>';
+        }
+
+        if (trial.prompt !== "" && trial.prompt_location == "below") {
+            html += trial.prompt;
+        }
 
         // add submit button HTML
         if (trial.show_submit_button) {
@@ -298,6 +335,9 @@ jsPsych.plugins['cued-recall'] = (function () {
         function check_responses() {
             for (var i=0; i<solutions.length; i++) {
                 var resp_time = performance.now() - response_start_time;
+                if (trial.mistake_fn !== null) {
+                    document.getElementById('jspsych-cued-recall-mistake').innerHTML = "";
+                }
                 var field = document.getElementById('jspsych-cued-recall-response-'+i)
                 var current_response = field.value.trim(); // removes leading/trailing whitespace
                 var current_solution = solutions[i];
@@ -317,10 +357,25 @@ jsPsych.plugins['cued-recall'] = (function () {
                 }
             }
             if (!trial.check_answers || (trial.check_answers && answers_correct)) {
-                end_trial();
+                if (trial.delay_after_submit !== null) {
+                    display_element.querySelectorAll('input').forEach(function(val) {
+                        if (trial.text_box_disabled_color !== null) {
+                            val.style.color = trial.text_box_disabled_color;
+                            val.style.borderColor = trial.text_box_disabled_color;
+                        }
+                        val.disabled = true; // prevent changing response during delay_after_submit
+                    }) 
+                    jsPsych.pluginAPI.setTimeout(function() {
+                        end_trial();
+                    },trial.delay_after_submit);
+                } else {
+                    end_trial();
+                }
             } else {
                 response_start_time = performance.now(); // get a new start time, in case we want to record an RT starting from when the mistake fn is called
-                trial.mistake_fn(current_response);
+                if (trial.mistake_fn !== null) {
+                    trial.mistake_fn(current_response,current_solution);
+                }
                 answers_correct = true;
             }  
         };
