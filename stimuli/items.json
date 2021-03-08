@@ -1,0 +1,602 @@
+[
+ {
+   "Category": "gems",
+   "Condition": "familiar",
+   "Exemplar": "rubies"
+ },
+ {
+   "Category": "gems",
+   "Condition": "familiar",
+   "Exemplar": "sapphires"
+ },
+ {
+   "Category": "gems",
+   "Condition": "familiar",
+   "Exemplar": "emeralds"
+ },
+ {
+   "Category": "gems",
+   "Condition": "familiar",
+   "Exemplar": "diamonds"
+ },
+ {
+   "Category": "gems",
+   "Condition": "familiar",
+   "Exemplar": "opals"
+ },
+ {
+   "Category": "gems",
+   "Condition": "familiar",
+   "Exemplar": "pearls"
+ },
+ {
+   "Category": "gems",
+   "Condition": "unfamiliar",
+   "Exemplar": "zircons"
+ },
+ {
+   "Category": "gems",
+   "Condition": "unfamiliar",
+   "Exemplar": "topazes"
+ },
+ {
+   "Category": "gems",
+   "Condition": "unfamiliar",
+   "Exemplar": "garnets"
+ },
+ {
+   "Category": "gems",
+   "Condition": "unfamiliar",
+   "Exemplar": "amethysts"
+ },
+ {
+   "Category": "gems",
+   "Condition": "unfamiliar",
+   "Exemplar": "citrines"
+ },
+ {
+   "Category": "gems",
+   "Condition": "unfamiliar",
+   "Exemplar": "quartzes"
+ },
+ {
+   "Category": "pants",
+   "Condition": "familiar",
+   "Exemplar": "jeans"
+ },
+ {
+   "Category": "pants",
+   "Condition": "familiar",
+   "Exemplar": "trousers"
+ },
+ {
+   "Category": "pants",
+   "Condition": "familiar",
+   "Exemplar": "leggings"
+ },
+ {
+   "Category": "pants",
+   "Condition": "familiar",
+   "Exemplar": "overalls"
+ },
+ {
+   "Category": "pants",
+   "Condition": "familiar",
+   "Exemplar": "boardshorts"
+ },
+ {
+   "Category": "pants",
+   "Condition": "familiar",
+   "Exemplar": "chinos"
+ },
+ {
+   "Category": "pants",
+   "Condition": "unfamiliar",
+   "Exemplar": "jodhpurs"
+ },
+ {
+   "Category": "pants",
+   "Condition": "unfamiliar",
+   "Exemplar": "khakis"
+ },
+ {
+   "Category": "pants",
+   "Condition": "unfamiliar",
+   "Exemplar": "dungarees"
+ },
+ {
+   "Category": "pants",
+   "Condition": "unfamiliar",
+   "Exemplar": "knickers"
+ },
+ {
+   "Category": "pants",
+   "Condition": "unfamiliar",
+   "Exemplar": "breeches"
+ },
+ {
+   "Category": "pants",
+   "Condition": "unfamiliar",
+   "Exemplar": "pantaloons"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "familiar",
+   "Exemplar": "flutes"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "familiar",
+   "Exemplar": "trumpets"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "familiar",
+   "Exemplar": "clarinets"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "familiar",
+   "Exemplar": "pianos"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "familiar",
+   "Exemplar": "guitars"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "familiar",
+   "Exemplar": "drums"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "unfamiliar",
+   "Exemplar": "mandolins"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "unfamiliar",
+   "Exemplar": "lutes"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "unfamiliar",
+   "Exemplar": "timpanis"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "unfamiliar",
+   "Exemplar": "cymbals"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "unfamiliar",
+   "Exemplar": "sitars"
+ },
+ {
+   "Category": "instruments",
+   "Condition": "unfamiliar",
+   "Exemplar": "bugles"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "familiar",
+   "Exemplar": "apples"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "familiar",
+   "Exemplar": "bananas"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "familiar",
+   "Exemplar": "oranges"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "familiar",
+   "Exemplar": "pears"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "familiar",
+   "Exemplar": "pineapples"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "familiar",
+   "Exemplar": "grapes"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "unfamiliar",
+   "Exemplar": "durians"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "unfamiliar",
+   "Exemplar": "rambutans"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "unfamiliar",
+   "Exemplar": "pomelos"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "unfamiliar",
+   "Exemplar": "tangerines"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "unfamiliar",
+   "Exemplar": "guavas"
+ },
+ {
+   "Category": "fruit",
+   "Condition": "unfamiliar",
+   "Exemplar": "quinces"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "familiar",
+   "Exemplar": "joggers"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "familiar",
+   "Exemplar": "nikes"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "familiar",
+   "Exemplar": "gumboots"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "familiar",
+   "Exemplar": "volleys"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "familiar",
+   "Exemplar": "uggs"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "familiar",
+   "Exemplar": "sandals"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "unfamiliar",
+   "Exemplar": "loafers"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "unfamiliar",
+   "Exemplar": "plimsoles"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "unfamiliar",
+   "Exemplar": "galoshes"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "unfamiliar",
+   "Exemplar": "moccasins"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "unfamiliar",
+   "Exemplar": "espadrilles"
+ },
+ {
+   "Category": "shoes",
+   "Condition": "unfamiliar",
+   "Exemplar": "stilettos"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "familiar",
+   "Exemplar": "whales"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "familiar",
+   "Exemplar": "elephants"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "familiar",
+   "Exemplar": "rabbits"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "familiar",
+   "Exemplar": "lions"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "familiar",
+   "Exemplar": "horses"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "familiar",
+   "Exemplar": "bears"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "unfamiliar",
+   "Exemplar": "dugongs"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "unfamiliar",
+   "Exemplar": "lemmings"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "unfamiliar",
+   "Exemplar": "bilbies"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "unfamiliar",
+   "Exemplar": "coyotes"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "unfamiliar",
+   "Exemplar": "tapirs"
+ },
+ {
+   "Category": "mammals",
+   "Condition": "unfamiliar",
+   "Exemplar": "raccoons"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "familiar",
+   "Exemplar": "guns"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "familiar",
+   "Exemplar": "swords"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "familiar",
+   "Exemplar": "daggers"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "familiar",
+   "Exemplar": "bombs"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "familiar",
+   "Exemplar": "rifles"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "familiar",
+   "Exemplar": "missiles"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "unfamiliar",
+   "Exemplar": "nunchucks"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "unfamiliar",
+   "Exemplar": "bazookas"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "unfamiliar",
+   "Exemplar": "cutlasses"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "unfamiliar",
+   "Exemplar": "katanas"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "unfamiliar",
+   "Exemplar": "scimitars"
+ },
+ {
+   "Category": "weapons",
+   "Condition": "unfamiliar",
+   "Exemplar": "molotovs"
+ },
+ {
+   "Category": "birds",
+   "Condition": "familiar",
+   "Exemplar": "seagulls"
+ },
+ {
+   "Category": "birds",
+   "Condition": "familiar",
+   "Exemplar": "eagles"
+ },
+ {
+   "Category": "birds",
+   "Condition": "familiar",
+   "Exemplar": "pigeons"
+ },
+ {
+   "Category": "birds",
+   "Condition": "familiar",
+   "Exemplar": "magpies"
+ },
+ {
+   "Category": "birds",
+   "Condition": "familiar",
+   "Exemplar": "cockatoos"
+ },
+ {
+   "Category": "birds",
+   "Condition": "familiar",
+   "Exemplar": "robins"
+ },
+ {
+   "Category": "birds",
+   "Condition": "unfamiliar",
+   "Exemplar": "starlings"
+ },
+ {
+   "Category": "birds",
+   "Condition": "unfamiliar",
+   "Exemplar": "plovers"
+ },
+ {
+   "Category": "birds",
+   "Condition": "unfamiliar",
+   "Exemplar": "wrens"
+ },
+ {
+   "Category": "birds",
+   "Condition": "unfamiliar",
+   "Exemplar": "kestrels"
+ },
+ {
+   "Category": "birds",
+   "Condition": "unfamiliar",
+   "Exemplar": "ospreys"
+ },
+ {
+   "Category": "birds",
+   "Condition": "unfamiliar",
+   "Exemplar": "galahs"
+ },
+ {
+   "Category": "insects",
+   "Condition": "familiar",
+   "Exemplar": "flies"
+ },
+ {
+   "Category": "insects",
+   "Condition": "familiar",
+   "Exemplar": "cockroaches"
+ },
+ {
+   "Category": "insects",
+   "Condition": "familiar",
+   "Exemplar": "beetles"
+ },
+ {
+   "Category": "insects",
+   "Condition": "familiar",
+   "Exemplar": "mosquitos"
+ },
+ {
+   "Category": "insects",
+   "Condition": "familiar",
+   "Exemplar": "ants"
+ },
+ {
+   "Category": "insects",
+   "Condition": "familiar",
+   "Exemplar": "grasshoppers"
+ },
+ {
+   "Category": "insects",
+   "Condition": "unfamiliar",
+   "Exemplar": "cicadas"
+ },
+ {
+   "Category": "insects",
+   "Condition": "unfamiliar",
+   "Exemplar": "aphids"
+ },
+ {
+   "Category": "insects",
+   "Condition": "unfamiliar",
+   "Exemplar": "locusts"
+ },
+ {
+   "Category": "insects",
+   "Condition": "unfamiliar",
+   "Exemplar": "weevils"
+ },
+ {
+   "Category": "insects",
+   "Condition": "unfamiliar",
+   "Exemplar": "earwigs"
+ },
+ {
+   "Category": "insects",
+   "Condition": "unfamiliar",
+   "Exemplar": "slaters"
+ },
+ {
+   "Category": "trees",
+   "Condition": "familiar",
+   "Exemplar": "oaks"
+ },
+ {
+   "Category": "trees",
+   "Condition": "familiar",
+   "Exemplar": "pines"
+ },
+ {
+   "Category": "trees",
+   "Condition": "familiar",
+   "Exemplar": "spruces"
+ },
+ {
+   "Category": "trees",
+   "Condition": "familiar",
+   "Exemplar": "redwoods"
+ },
+ {
+   "Category": "trees",
+   "Condition": "familiar",
+   "Exemplar": "gums"
+ },
+ {
+   "Category": "trees",
+   "Condition": "familiar",
+   "Exemplar": "maples"
+ },
+ {
+   "Category": "trees",
+   "Condition": "unfamiliar",
+   "Exemplar": "hickories"
+ },
+ {
+   "Category": "trees",
+   "Condition": "unfamiliar",
+   "Exemplar": "larches"
+ },
+ {
+   "Category": "trees",
+   "Condition": "unfamiliar",
+   "Exemplar": "sycamores"
+ },
+ {
+   "Category": "trees",
+   "Condition": "unfamiliar",
+   "Exemplar": "junipers"
+ },
+ {
+   "Category": "trees",
+   "Condition": "unfamiliar",
+   "Exemplar": "poplars"
+ },
+ {
+   "Category": "trees",
+   "Condition": "unfamiliar",
+   "Exemplar": "cedars"
+ }
+]
