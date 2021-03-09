@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Experiment</title>
+    <script src="jspsych-6.2.0/jspsych.js"></script>
+    <script src="jspsych-6.2.0/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.2.0/plugins/jspsych-instructions.js"></script>
+    <script src="jspsych-survey-text-validation.js"></script>
+    <script src="jspsych-cued-recall.js"></script>
+    <script src="stimuli/items_familiar.js"></script>
+    <script src="stimuli/items_unfamiliar.js"></script>
+    <script src="stimuli/retrieval_lists.js"></script>
+    <link rel="stylesheet" href="jspsych-6.2.0/css/jspsych.css">
+    <style>
+        .retrieval-stim, .learning-stim, .like-judgment-stim {font-family: Calibri, sans-serif; font-size: 40px; font-weight: bold;}
+        #input-0 {font-size: 25px; text-align: center; padding: 4px 4px;}
+    </style>
+</head>
+<body></body>
+<script>
+
+    // ** Initialize globals **
+    var timeline = [];
+    var condition = null;
+    var familiarity = null;
+    var all_trials = null;
+    var retrieval_list = null;
+    var retrieval_trials = null;
+
+    // ** Task and trial parameters **
+    var learning_item_duration = 6000;
+    var inter_trial_interval = 2000;
+    var delay_after_instructions = 2000;
+    var retrieval_response_timeout = 16000;
+    var retrieval_delay_after_submit = 2000;
+    var like_judgment_timeout = 8000;
+    var distractor_task_duration = 240000;
+    var filler_categories = ['gems','trees'];
+
+    // ** Set up stimuli lists **
+    // 8 conditions: 2 familiarity (between-subject) x 4 retrieval list conditions
+    // condition number will come from cognition.run - sample randomly for now
+    condition = jsPsych.randomization.sampleWithoutReplacement([2,4,6,8],1)[0]; // [1,2,3,4,5,6,7,8]
+
+    if (condition % 2 == 0) {
+        familiarity = "familiar";
+        all_trials = items_familiar;
+        if (condition == 2) {
+            retrieval_trials = retrieval_FA1;
+            retrieval_list = "A1";
+        } else if (condition == 4) {
+            retrieval_trials = retrieval_FA2;
+            retrieval_list = "A2";
+        } else if (condition == 6) {
+            retrieval_trials = retrieval_FB1;
+            retrieval_list = "B1";
+        } else {
+            retrieval_trials = retrieval_FB2;
+            retrieval_list = "B2";
+        }
+    } else {
+        familiarity = "unfamiliar";
+        all_trials = items_unfamiliar;
+        if (condition == 1) {
+            retrieval_trials = retrieval_UA1;
+            retrieval_list = "A1";
+        } else if (condition == 3) {
+            retrieval_trials = retrieval_UA2;
+            retrieval_list = "A2";
+        } else if (condition == 5) {
+            retrieval_trials = retrieval_UB1;
+            retrieval_list = "B1";
+        } else {
+            retrieval_trials = retrieval_UB2;
+            retrieval_list = "B2";
+        }
+    }
+    console.log('condition: ',condition);
+    console.log('familiarity: ',familiarity);
+    console.log('retrieval list: ',retrieval_list);
+    console.log('all trials: ',all_trials);
+
+    // ** Set up learning phase **
+    var learning_instructions = {
+        type: 'instructions',
+        pages: ['<p>In the first phase of the experiment you will be presented with a series of statements on the screen.</p>'+
+        '<p>Each statement will appear for several seconds before disappearing, so it is important that you pay close attention.</p>'+
+        '<p>You need to reach each statement carefully while it is on the screen.</p>'+
+        '<p>Press the space bar to continue.</p>',
+        '<p>You are now ready to start!</p><p>Please pay close attention to the statements as they appear.</p>'+
+        '<p>Press the space bar when you are ready to begin.</p>'],
+        key_forward: 'space',
+        allow_backwards: false,
+        post_trial_gap: delay_after_instructions
+    };
+    timeline.push(learning_instructions);
+
+    var learning_trial = {
+        type: 'html-keyboard-response',
+        stimulus: function() {
+            return '<span class="learning-stim">'+jsPsych.timelineVariable('sentence',true)+'</span>';
+        },
+        choices: jsPsych.NO_KEYS,
+        trial_duration: learning_item_duration,
+        post_trial_gap: inter_trial_interval,
+        data: {
+            task_part: 'learning',
+            condition: condition, 
+            familiarity: familiarity, 
+            retrieval_list: retrieval_list, 
+            exemplar: jsPsych.timelineVariable('exemplar'), 
+            category: jsPsych.timelineVariable('category')
+        }
+    };
+    // loop over all items (all_trials, which is either items_familiar or items_unfamiliar), present in random order
+    var learning_procedure = {
+        timeline: [learning_trial],
+        timeline_variables: all_trials,
+        randomize_order: true,
+        sample: {
+            type: 'without-replacement',
+            size: 3,
+        }
+    };
+    timeline.push(learning_procedure);
+
+    // ** Set up retrieval phase **
+    var retrieval_instructions = {
+        type: 'instructions',
+        pages: ['<p>In the next phase of the experiment, you will be presented with some of the statements that you have already read.</p>'+
+        '<p>However, some parts will be blanked out.</p>'+
+        '<p>You need to remember what the statement should be and then type the entire statement into the textbox.</p>'+
+        '<p>Press the space bar to continue.</p>',
+        '<p>For example, if you saw the statement "all gungans are aliens", then it will appear to you as "all gu____ are aliens".</p>'+
+        '<p>You will need to remember that the missing word is "gungans" and then type the entire statement with the missing word filled in.</p>'+
+        '<p>That is to say, you should type the full sentence into the textbox, i.e. "all gungans are aliens".</p>'+
+        '<p>Press the space bar to continue.</p>',
+        '<p>You will only have a short time to type what you remember into the textbox, so be as quick as you can.</p>'+
+        '<p>Don&#39;t worry if you accidentally make spelling errors, but do try to spell each statement correctly.</p>'+
+        '<p>When you feel ready, press the space bar to begin the task...</p>',
+        ],
+        key_forward: 'space',
+        allow_backwards: false,
+        post_trial_gap: delay_after_instructions
+    };
+    timeline.push(retrieval_instructions);
+
+    var retrieval_trial = {
+        type: 'cued-recall',
+        stimulus: function() {
+            var exemplar = jsPsych.timelineVariable('exemplar',true);
+            var exemplar_cue = exemplar.substring(0,2);
+            var text_string = 'all '+jsPsych.timelineVariable('exemplar',true)+' are '+jsPsych.timelineVariable('category',true);
+            return '<span class="retrieval-stim">all '+exemplar_cue+'%'+text_string+'% are '+jsPsych.timelineVariable('category',true)+'</span>';
+        },
+        text_box_font_size: 25,
+        text_box_disabled_color: 'DimGrey',
+        blank_text_length: 10,
+        show_submit_button: false,
+        allow_submit_key: true,
+        prompt: '<p>Press Enter to submit your response.</p>',
+        prompt_location: 'above',
+        check_answers: true,
+        mistake_fn: function(resp, corr) {
+            document.getElementById('jspsych-cued-recall-mistake').innerHTML = 'That response is not correct.<br>Please type the correct response: "'+corr+'".';
+        },
+        post_trial_gap: inter_trial_interval,
+        delay_after_submit: retrieval_delay_after_submit,
+        trial_duration: retrieval_response_timeout,
+        data: {
+            task_part: 'retrieval',
+            condition: condition, 
+            familiarity: familiarity, 
+            retrieval_list: retrieval_list, 
+            exemplar: jsPsych.timelineVariable('exemplar'), 
+            category: jsPsych.timelineVariable('category')
+        }
+    };
+    // present the item list stored in retrieval_trials (one of the subsets: A1, A2, B1, B2) in a fixed order
+    var retrieval_procedure = {
+        timeline: [retrieval_trial],
+        timeline_variables: retrieval_trials,
+        sample: {
+            type: 'without-replacement',
+            size: 3,
+        }
+    };
+    timeline.push(retrieval_procedure);
+
+    // ** Set up distractor task **
+    var distractor_instructions = {
+        type: 'html-keyboard-response',
+        stimulus: '<p>Well done! In the next phase of the experiment... (distractor task).</p>'+
+        '<p>Press the space bar to continue.</p>',
+        choices: ['space'],
+        post_trial_gap: delay_after_instructions
+    };
+    timeline.push(distractor_instructions);
+
+    // ** Set up like judgment task **
+    var like_judgment_instructions = {
+        type: 'instructions',
+        pages: ['<p>In the final phase of the experiment, you will be presented with the statements you may have already seen today.</p>'+
+        '<p>For each statement, you will need to decide how much you like or dislike it. To do this, type a number into the textbox.</p>'+
+        '<p>But you will only have a few seconds in which to make each judgement, so be quick!</p>'+
+        '<p>Press the space bar to continue.</p>',
+        '<p>Please read each statement carefully, and indicate how much you like on the following scale from 1 to 6.</p>'+
+        '<p>1 = dislike it very much<br>2 = dislike it quite a bit<br>3 = dislike it somewhat<br>4 = like it somewhat<br>5 = like it quite a bit<br>6 = like it very much</p>'+
+        '<p>Press the space bar to continue.</p>',
+        '<p>When you make the liking judgment, please focus on your feeling about the statement.</p>'+
+        '<p>Do not think about why you like or dislike the statement, just go with your intuition and gut-feelings.</p>'+
+        '<p>Please try to use the full extent of the scale (so use all possible values from 1 to 6).</p>'+
+        '<p>Just remember, you only have a few seconds to decide how much you like them and enter a number.</p>'+
+        '<p>You must press the Enter key after rating each sentence to submit your answer!</p>'+
+        '<p>When you feel ready, press the space bar to begin the task...</p>'],
+        key_forward: 'space',
+        post_trial_gap: delay_after_instructions
+    };
+    timeline.push(like_judgment_instructions);
+
+    var like_judgment_trial = { 
+        type: 'survey-text-validation',
+        preamble: '<span style="display: inline-block;transform:translate(-50%,0px);">1 = dislike it very much</span>'+
+                '<span style="display: inline-block;transform:translate(50%,0px);">6 = like it very much</span>',
+        questions: function() {
+            return [{
+                prompt: '<span class="like-judgment-stim">'+jsPsych.timelineVariable('sentence',true)+'</span>', 
+                rows: 1, columns: 1, required: true, name: "like_judgment",
+                validation: function(resp) {
+                    var pattern = new RegExp('^[1-6]$');
+                    return pattern.test(resp);
+                },
+                validation_message: 'Please enter a single number between 1 and 6.'
+            }];
+        },
+        trial_duration: like_judgment_timeout,
+        show_submit_button: false,
+        post_trial_gap: inter_trial_interval,
+        data: {
+            task_part: 'like_judgment',
+            condition: condition, 
+            familiarity: familiarity, 
+            retrieval_list: retrieval_list, 
+            exemplar: jsPsych.timelineVariable('exemplar'), 
+            category: jsPsych.timelineVariable('category')
+        }
+    };
+
+    // create like judgment stimuli array with all items in category-specific blocks: randomized category order and randomized exemplar order within categories
+    // filler categories (gems and trees) randomly selected as first and last categories
+    var unique_categories = all_trials.map(function(obj) { return obj.category; }).filter(function(itm, ind, arr) { return ind == arr.indexOf(itm); })
+    var target_categories = unique_categories.filter(function(itm, ind, arr) { return !(filler_categories.includes(itm)); });
+    var category_lists = {};
+    for (var i=0; i<unique_categories.length; i++) {
+        category_lists[unique_categories[i]] = jsPsych.randomization.shuffle(all_trials.filter(function(obj) { return obj.category == unique_categories[i]; }));
+    }
+    var rand_target_category_order = jsPsych.randomization.shuffle(target_categories);
+    var rand_filler_category_order = jsPsych.randomization.shuffle(filler_categories);
+    var like_judgment_stimuli = [];
+    like_judgment_stimuli.push(...category_lists[rand_filler_category_order[0]]); // first category block = random filler 1
+    rand_target_category_order.forEach(function(itm,ind) {
+        like_judgment_stimuli.push(...category_lists[itm]);
+    });
+    like_judgment_stimuli.push(...category_lists[rand_filler_category_order[1]]); // last category block = random filler 2
+    console.log('like judgment stimuli: ',like_judgment_stimuli);
+
+    // loop over the like_judgment_stimuli array
+    var like_judgment_procedure = {
+        timeline: [like_judgment_trial],
+        timeline_variables: like_judgment_stimuli,
+        sample: {
+            type: 'without-replacement',
+            size: 3,
+        }
+    };
+    timeline.push(like_judgment_procedure);
+
+    // var free_recall_trial = {
+    //     type: 'cued-recall',
+    //     stimulus: '<p><strong>All %% are fruit.</strong></p>',
+    //     text_box_columns: 20,
+    //     show_submit_button: false,
+    //     trial_duration: 30000,
+    //     print_responses: true,
+    //     print_response_key: 'enter',
+    //     prompt: '<p>Add a response, then press enter.<br/>Continue responding until the trial times out (30 seconds).</p>'
+    // };
+    // timeline.push(free_recall_trial);
+
+    var end = {
+        type: 'html-keyboard-response',
+        stimulus: '<p>You&#39;ve finished the experiment!</p><p>Thank you for participating!</p>',
+        choices: jsPsych.NO_KEYS,
+        trial_duration: 5000
+    };
+    timeline.push(end);
+
+    jsPsych.init({
+        timeline: timeline,
+        on_finish: function() {
+            jsPsych.data.displayData();
+        }
+    });
+</script>
+</html>
