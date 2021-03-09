@@ -11,10 +11,7 @@
     <script src="stimuli/items_unfamiliar.js"></script>
     <script src="stimuli/retrieval_lists.js"></script>
     <link rel="stylesheet" href="jspsych-6.2.0/css/jspsych.css">
-    <style>
-        .retrieval-stim, .learning-stim, .like-judgment-stim {font-family: Calibri, sans-serif; font-size: 40px; font-weight: bold;}
-        #input-0 {font-size: 25px; text-align: center; padding: 4px 4px;}
-    </style>
+    <link rel="stylesheet" href="RIF_task.css">
 </head>
 <body></body>
 <script>
@@ -26,6 +23,7 @@
     var all_trials = null;
     var retrieval_list = null;
     var retrieval_trials = null;
+    var distractor_start_time = null;
 
     // ** Task and trial parameters **
     var learning_item_duration = 6000;
@@ -33,14 +31,15 @@
     var delay_after_instructions = 2000;
     var retrieval_response_timeout = 16000;
     var retrieval_delay_after_submit = 2000;
-    var like_judgment_timeout = 8000;
     var distractor_task_duration = 240000;
+    var distractor_ITIs = [400,800,1200,1600,2000,2400,2800];
+    var like_judgment_timeout = 8000;
     var filler_categories = ['gems','trees'];
 
     // ** Set up stimuli lists **
     // 8 conditions: 2 familiarity (between-subject) x 4 retrieval list conditions
     // condition number will come from cognition.run - sample randomly for now
-    condition = jsPsych.randomization.sampleWithoutReplacement([2,4,6,8],1)[0]; // [1,2,3,4,5,6,7,8]
+    condition = jsPsych.randomization.sampleWithoutReplacement([1,2,3,4,5,6,7,8],1)[0];
 
     if (condition % 2 == 0) {
         familiarity = "familiar";
@@ -91,7 +90,8 @@
         '<p>Press the space bar when you are ready to begin.</p>'],
         key_forward: 'space',
         allow_backwards: false,
-        post_trial_gap: delay_after_instructions
+        post_trial_gap: delay_after_instructions,
+        data: {task_part: 'learning_instructions'}
     };
     timeline.push(learning_instructions);
 
@@ -141,7 +141,8 @@
         ],
         key_forward: 'space',
         allow_backwards: false,
-        post_trial_gap: delay_after_instructions
+        post_trial_gap: delay_after_instructions,
+        data: {task_part: 'retrieval_instructions'}
     };
     timeline.push(retrieval_instructions);
 
@@ -189,18 +190,81 @@
 
     // ** Set up distractor task **
     var distractor_instructions = {
-        type: 'html-keyboard-response',
-        stimulus: '<p>Well done! In the next phase of the experiment... (distractor task).</p>'+
+        type: 'instructions',
+        pages: ['<p>Well done! In the next phase of the experiment, you will be asked to make speeded judgments.</p>'+
+        '<p>In each trial, you will see two numbers on the screen.</p>'+
+        '<p>Press the f key if the numbers are the same. Press the j key if the numbers are different.</p>'+
+        '<p>Please respond as quickly and as accurately as you can.</p>'+
         '<p>Press the space bar to continue.</p>',
-        choices: ['space'],
-        post_trial_gap: delay_after_instructions
+        '<p>Remember:</p><p>Press the f key if the numbers are the same.</p><p>Press the j key if the numbers are different.</p>'+
+        '<p>Press the space bar to start.</p>'
+        ],
+        key_forward: 'space',
+        allow_backwards: false,
+        post_trial_gap: delay_after_instructions,
+        data: {task_part: 'distractor_instructions'}
     };
     timeline.push(distractor_instructions);
+
+    var distractor_trial = {
+        type: 'html-keyboard-response',
+        stimulus: function() {
+            var digits = jsPsych.randomization.sampleWithReplacement([1,2,3,4,5,6],2);
+            return '<span class="distractor-stim left">'+digits[0]+'</span><span class="distractor-stim right">'+digits[1]+'</span>'
+        },
+        //prompt: '<span class="left">f = same</span><span class="right">j = different</span>',
+        choices: ['f','j'],
+        trial_duration: 2000,
+        data: {task_part: 'distractor_task'},
+        on_start: function() {
+            if (distractor_start_time == null) {
+                distractor_start_time = performance.now();
+            }
+        }
+    };
+    var response_timeout_message = {
+        type: 'html-keyboard-response',
+        stimulus: '<span class="distractor-timeout-msg">Please respond faster.</span>',
+        trial_duration: 3000,
+        choices: jsPsych.NO_KEYS,
+        data: {task_part: 'distractor_timeout_msg'}
+    };
+    var response_timeout_conditional = {
+        timeline: [response_timeout_message],
+        conditional_function: function() {
+            var last_trial = jsPsych.data.getLastTrialData().values()[0];
+            if (last_trial.key_press == null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+    var iti = {
+        type: 'html-keyboard-response',
+        stimulus: '',
+        choices: jsPsych.NO_KEYS,
+        data: {task_part: 'distractor_ITI'},
+        trial_duration: function() {return jsPsych.randomization.sampleWithoutReplacement(distractor_ITIs,1)[0];}
+    };
+    var distractor_procedure = {
+        timeline: [distractor_trial, response_timeout_conditional, iti],
+        loop_function: function() {
+            var curr_time = performance.now();
+            if (curr_time - distractor_start_time >= distractor_task_duration) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    };
+    timeline.push(distractor_procedure);
 
     // ** Set up like judgment task **
     var like_judgment_instructions = {
         type: 'instructions',
-        pages: ['<p>In the final phase of the experiment, you will be presented with the statements you may have already seen today.</p>'+
+        pages: ['<p>Thanks, you&#39;re done with that task.</p>'+
+        '<p>In the final phase of the experiment, you will be presented with the statements you may have already seen today.</p>'+
         '<p>For each statement, you will need to decide how much you like or dislike it. To do this, type a number into the textbox.</p>'+
         '<p>But you will only have a few seconds in which to make each judgement, so be quick!</p>'+
         '<p>Press the space bar to continue.</p>',
@@ -214,14 +278,13 @@
         '<p>You must press the Enter key after rating each sentence to submit your answer!</p>'+
         '<p>When you feel ready, press the space bar to begin the task...</p>'],
         key_forward: 'space',
-        post_trial_gap: delay_after_instructions
+        post_trial_gap: delay_after_instructions,
+        data: {task_part: 'like_judgment_instructions'}
     };
     timeline.push(like_judgment_instructions);
 
     var like_judgment_trial = { 
         type: 'survey-text-validation',
-        preamble: '<span style="display: inline-block;transform:translate(-50%,0px);">1 = dislike it very much</span>'+
-                '<span style="display: inline-block;transform:translate(50%,0px);">6 = like it very much</span>',
         questions: function() {
             return [{
                 prompt: '<span class="like-judgment-stim">'+jsPsych.timelineVariable('sentence',true)+'</span>', 
@@ -291,7 +354,8 @@
         type: 'html-keyboard-response',
         stimulus: '<p>You&#39;ve finished the experiment!</p><p>Thank you for participating!</p>',
         choices: jsPsych.NO_KEYS,
-        trial_duration: 5000
+        trial_duration: 5000,
+        data: {task_part: 'end_msg'}
     };
     timeline.push(end);
 

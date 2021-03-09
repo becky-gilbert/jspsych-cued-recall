@@ -2,301 +2,361 @@ var items_unfamiliar = [
   {
     category: "gems",
     condition: "unfamiliar",
-    exemplar: "zircons"
+    exemplar: "zircons",
+    sentence: "all zircons are gems",
   },
   {
     category: "gems",
     condition: "unfamiliar",
-    exemplar: "topazes"
+    exemplar: "topazes",
+    sentence: "all topazes are gems",
   },
   {
     category: "gems",
     condition: "unfamiliar",
-    exemplar: "garnets"
+    exemplar: "garnets",
+    sentence: "all garnets are gems",
   },
   {
     category: "gems",
     condition: "unfamiliar",
-    exemplar: "amethysts"
+    exemplar: "amethysts",
+    sentence: "all amethysts are gems",
   },
   {
     category: "gems",
     condition: "unfamiliar",
-    exemplar: "citrines"
+    exemplar: "citrines",
+    sentence: "all citrines are gems",
   },
   {
     category: "gems",
     condition: "unfamiliar",
-    exemplar: "quartzes"
+    exemplar: "quartzes",
+    sentence: "all quartzes are gems",
   },
   {
     category: "pants",
     condition: "unfamiliar",
-    exemplar: "jodhpurs"
+    exemplar: "jodhpurs",
+    sentence: "all jodhpurs are pants",
   },
   {
     category: "pants",
     condition: "unfamiliar",
-    exemplar: "khakis"
+    exemplar: "khakis",
+    sentence: "all khakis are pants",
   },
   {
     category: "pants",
     condition: "unfamiliar",
-    exemplar: "dungarees"
+    exemplar: "dungarees",
+    sentence: "all dungarees are pants",
   },
   {
     category: "pants",
     condition: "unfamiliar",
-    exemplar: "knickers"
+    exemplar: "knickers",
+    sentence: "all knickers are pants",
   },
   {
     category: "pants",
     condition: "unfamiliar",
-    exemplar: "breeches"
+    exemplar: "breeches",
+    sentence: "all breeches are pants",
   },
   {
     category: "pants",
     condition: "unfamiliar",
-    exemplar: "pantaloons"
+    exemplar: "pantaloons",
+    sentence: "all pantaloons are pants",
   },
   {
     category: "instruments",
     condition: "unfamiliar",
-    exemplar: "mandolins"
+    exemplar: "mandolins",
+    sentence: "all mandolins are instruments",
   },
   {
     category: "instruments",
     condition: "unfamiliar",
-    exemplar: "lutes"
+    exemplar: "lutes",
+    sentence: "all lutes are instruments",
   },
   {
     category: "instruments",
     condition: "unfamiliar",
-    exemplar: "timpanis"
+    exemplar: "timpanis",
+    sentence: "all timpanis are instruments",
   },
   {
     category: "instruments",
     condition: "unfamiliar",
-    exemplar: "cymbals"
+    exemplar: "cymbals",
+    sentence: "all cymbals are instruments",
   },
   {
     category: "instruments",
     condition: "unfamiliar",
-    exemplar: "sitars"
+    exemplar: "sitars",
+    sentence: "all sitars are instruments",
   },
   {
     category: "instruments",
     condition: "unfamiliar",
-    exemplar: "bugles"
+    exemplar: "bugles",
+    sentence: "all bugles are instruments",
   },
   {
     category: "fruit",
     condition: "unfamiliar",
-    exemplar: "durians"
+    exemplar: "durians",
+    sentence: "all durians are fruit",
   },
   {
     category: "fruit",
     condition: "unfamiliar",
-    exemplar: "rambutans"
+    exemplar: "rambutans",
+    sentence: "all rambutans are fruit",
   },
   {
     category: "fruit",
     condition: "unfamiliar",
-    exemplar: "pomelos"
+    exemplar: "pomelos",
+    sentence: "all pomelos are fruit",
   },
   {
     category: "fruit",
     condition: "unfamiliar",
-    exemplar: "tangerines"
+    exemplar: "tangerines",
+    sentence: "all tangerines are fruit",
   },
   {
     category: "fruit",
     condition: "unfamiliar",
-    exemplar: "guavas"
+    exemplar: "guavas",
+    sentence: "all guavas are fruit",
   },
   {
     category: "fruit",
     condition: "unfamiliar",
-    exemplar: "quinces"
+    exemplar: "quinces",
+    sentence: "all quinces are fruit",
   },
   {
     category: "shoes",
     condition: "unfamiliar",
-    exemplar: "loafers"
+    exemplar: "loafers",
+    sentence: "all loafers are shoes",
   },
   {
     category: "shoes",
     condition: "unfamiliar",
-    exemplar: "plimsoles"
+    exemplar: "plimsoles",
+    sentence: "all plimsoles are shoes",
   },
   {
     category: "shoes",
     condition: "unfamiliar",
-    exemplar: "galoshes"
+    exemplar: "galoshes",
+    sentence: "all galoshes are shoes",
   },
   {
     category: "shoes",
     condition: "unfamiliar",
-    exemplar: "moccasins"
+    exemplar: "moccasins",
+    sentence: "all moccasins are shoes",
   },
   {
     category: "shoes",
     condition: "unfamiliar",
-    exemplar: "espadrilles"
+    exemplar: "espadrilles",
+    sentence: "all espadrilles are shoes",
   },
   {
     category: "shoes",
     condition: "unfamiliar",
-    exemplar: "stilettos"
+    exemplar: "stilettos",
+    sentence: "all stilettos are shoes",
   },
   {
     category: "mammals",
     condition: "unfamiliar",
-    exemplar: "dugongs"
+    exemplar: "dugongs",
+    sentence: "all dugongs are mammals",
   },
   {
     category: "mammals",
     condition: "unfamiliar",
-    exemplar: "lemmings"
+    exemplar: "lemmings",
+    sentence: "all lemmings are mammals",
   },
   {
     category: "mammals",
     condition: "unfamiliar",
-    exemplar: "bilbies"
+    exemplar: "bilbies",
+    sentence: "all bilbies are mammals",
   },
   {
     category: "mammals",
     condition: "unfamiliar",
-    exemplar: "coyotes"
+    exemplar: "coyotes",
+    sentence: "all coyotes are mammals",
   },
   {
     category: "mammals",
     condition: "unfamiliar",
-    exemplar: "tapirs"
+    exemplar: "tapirs",
+    sentence: "all tapirs are mammals",
   },
   {
     category: "mammals",
     condition: "unfamiliar",
-    exemplar: "raccoons"
+    exemplar: "raccoons",
+    sentence: "all raccoons are mammals",
   },
   {
     category: "weapons",
     condition: "unfamiliar",
-    exemplar: "nunchucks"
+    exemplar: "nunchucks",
+    sentence: "all nunchucks are weapons",
   },
   {
     category: "weapons",
     condition: "unfamiliar",
-    exemplar: "bazookas"
+    exemplar: "bazookas",
+    sentence: "all bazookas are weapons",
   },
   {
     category: "weapons",
     condition: "unfamiliar",
-    exemplar: "cutlasses"
+    exemplar: "cutlasses",
+    sentence: "all cutlasses are weapons",
   },
   {
     category: "weapons",
     condition: "unfamiliar",
-    exemplar: "katanas"
+    exemplar: "katanas",
+    sentence: "all katanas are weapons",
   },
   {
     category: "weapons",
     condition: "unfamiliar",
-    exemplar: "scimitars"
+    exemplar: "scimitars",
+    sentence: "all scimitars are weapons",
   },
   {
     category: "weapons",
     condition: "unfamiliar",
-    exemplar: "molotovs"
+    exemplar: "molotovs",
+    sentence: "all molotovs are weapons",
   },
   {
     category: "birds",
     condition: "unfamiliar",
-    exemplar: "starlings"
+    exemplar: "starlings",
+    sentence: "all starlings are birds",
   },
   {
     category: "birds",
     condition: "unfamiliar",
-    exemplar: "plovers"
+    exemplar: "plovers",
+    sentence: "all plovers are birds",
   },
   {
     category: "birds",
     condition: "unfamiliar",
-    exemplar: "wrens"
+    exemplar: "wrens",
+    sentence: "all wrens are birds",
   },
   {
     category: "birds",
     condition: "unfamiliar",
-    exemplar: "kestrels"
+    exemplar: "kestrels",
+    sentence: "all kestrels are birds",
   },
   {
     category: "birds",
     condition: "unfamiliar",
-    exemplar: "ospreys"
+    exemplar: "ospreys",
+    sentence: "all ospreys are birds",
   },
   {
     category: "birds",
     condition: "unfamiliar",
-    exemplar: "galahs"
+    exemplar: "galahs",
+    sentence: "all galahs are birds",
   },
   {
     category: "insects",
     condition: "unfamiliar",
-    exemplar: "cicadas"
+    exemplar: "cicadas",
+    sentence: "all cicadas are insects",
   },
   {
     category: "insects",
     condition: "unfamiliar",
-    exemplar: "aphids"
+    exemplar: "aphids",
+    sentence: "all aphids are insects",
   },
   {
     category: "insects",
     condition: "unfamiliar",
-    exemplar: "locusts"
+    exemplar: "locusts",
+    sentence: "all locusts are insects",
   },
   {
     category: "insects",
     condition: "unfamiliar",
-    exemplar: "weevils"
+    exemplar: "weevils",
+    sentence: "all weevils are insects",
   },
   {
     category: "insects",
     condition: "unfamiliar",
-    exemplar: "earwigs"
+    exemplar: "earwigs",
+    sentence: "all earwigs are insects",
   },
   {
     category: "insects",
     condition: "unfamiliar",
-    exemplar: "slaters"
+    exemplar: "slaters",
+    sentence: "all slaters are insects",
   },
   {
     category: "trees",
     condition: "unfamiliar",
-    exemplar: "hickories"
+    exemplar: "hickories",
+    sentence: "all hickories are trees",
   },
   {
     category: "trees",
     condition: "unfamiliar",
-    exemplar: "larches"
+    exemplar: "larches",
+    sentence: "all larches are trees",
   },
   {
     category: "trees",
     condition: "unfamiliar",
-    exemplar: "sycamores"
+    exemplar: "sycamores",
+    sentence: "all sycamores are trees",
   },
   {
     category: "trees",
     condition: "unfamiliar",
-    exemplar: "junipers"
+    exemplar: "junipers",
+    sentence: "all junipers are trees",
   },
   {
     category: "trees",
     condition: "unfamiliar",
-    exemplar: "poplars"
+    exemplar: "poplars",
+    sentence: "all poplars are trees",
   },
   {
     category: "trees",
     condition: "unfamiliar",
-    exemplar: "cedars"
-  }
+    exemplar: "cedars",
+    sentence: "all cedars are trees",
+  },
 ];
