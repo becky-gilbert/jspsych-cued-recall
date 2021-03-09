@@ -38,8 +38,10 @@
 
     // ** Set up stimuli lists **
     // 8 conditions: 2 familiarity (between-subject) x 4 retrieval list conditions
-    // condition number will come from cognition.run - sample randomly for now
+    // get random condition via jsPsych:
     condition = jsPsych.randomization.sampleWithoutReplacement([1,2,3,4,5,6,7,8],1)[0];
+    // get counterbalanced condition number via cognition.run:
+    //condition = CONDITION;
 
     if (condition % 2 == 0) {
         familiarity = "familiar";
@@ -109,7 +111,8 @@
             familiarity: familiarity, 
             retrieval_list: retrieval_list, 
             exemplar: jsPsych.timelineVariable('exemplar'), 
-            category: jsPsych.timelineVariable('category')
+            category: jsPsych.timelineVariable('category'),
+            sentence: jsPsych.timelineVariable('sentence')
         }
     };
     // loop over all items (all_trials, which is either items_familiar or items_unfamiliar), present in random order
@@ -174,7 +177,16 @@
             familiarity: familiarity, 
             retrieval_list: retrieval_list, 
             exemplar: jsPsych.timelineVariable('exemplar'), 
-            category: jsPsych.timelineVariable('category')
+            category: jsPsych.timelineVariable('category'),
+            sentence: jsPsych.timelineVariable('sentence')
+        },
+        on_finish: function(data) {
+            // parse the JSON-formatted response and save to data
+            var responses = JSON.parse(data.responses);
+            for (var i=0; i<responses.length; i++) {
+                data["response_"+i.toString()] = responses[i].response;
+                data["response_rt_"+i.toString()] = responses[i].rt;
+            }
         }
     };
     // present the item list stored in retrieval_trials (one of the subsets: A1, A2, B1, B2) in a fixed order
@@ -305,7 +317,12 @@
             familiarity: familiarity, 
             retrieval_list: retrieval_list, 
             exemplar: jsPsych.timelineVariable('exemplar'), 
-            category: jsPsych.timelineVariable('category')
+            category: jsPsych.timelineVariable('category'),
+            sentence: jsPsych.timelineVariable('sentence')
+        },
+        on_finish: function(data) {
+            var responses = JSON.parse(data.responses);
+            data.like_judgment = responses.like_judgment;
         }
     };
 
