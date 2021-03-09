@@ -385,7 +385,7 @@ jsPsych.plugins['cued-recall'] = (function () {
             var trial_duration = performance.now() - start_time;
             var trial_data = {
                 'trial_duration': trial_duration,
-                'answers': JSON.stringify(answers),
+                'responses': JSON.stringify(answers),
                 'background_color': bg_color,
                 'element_color': el_color
             };
