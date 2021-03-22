@@ -260,7 +260,7 @@ jsPsych.plugins['cued-recall'] = (function () {
                     var blank = Array(trial.blank_text_length).join("&nbsp;");
                     html += '<u>'+blank+'</u>';
                 } else if (trial.text_box_location == "stimulus") {
-                    html += '<input type="text" class="jspsych-cued-recall-response" id="jspsych-cued-recall-response-'+(solutions.length-1)+'" '+
+                    html += '<input type="text" autocomplete="off" class="jspsych-cued-recall-response" id="jspsych-cued-recall-response-'+(solutions.length-1)+'" '+
                     'value="" size="'+trial.text_box_columns+'" '+
                     'style="font-size:'+trial.text_box_font_size+'px; '+
                     'color: inherit; background-color: inherit; '+
@@ -274,7 +274,7 @@ jsPsych.plugins['cued-recall'] = (function () {
         }
 
         if (trial.text_box_location == "below") {
-            html += '<p><input type="text" class="jspsych-cued-recall-response" id="jspsych-cued-recall-response-0" '+
+            html += '<p><input type="text" autocomplete="off" class="jspsych-cued-recall-response" id="jspsych-cued-recall-response-0" '+
             'value="" size="'+trial.text_box_columns+'" '+
             'style="font-size:'+trial.text_box_font_size+'px; '+
             'color: inherit; background-color: inherit; border-style: solid; '+
