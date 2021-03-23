@@ -7,6 +7,11 @@
   font-weight: bold;
 }
 
+/* .learning-stim, .like-judgment-stim {
+  color: DimGrey;
+  opacity: 0.3;
+} */
+
 /* formatting for response box text in the retrieval and like judgment phases */
 #input-0 {
   font-size: 25px;
