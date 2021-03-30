@@ -36,6 +36,12 @@
   transform: translate(70%, 0px);
 }
 
+/* class to move prompt text above distractor stimulus */
+.top {
+  position: relative;
+  top: -120px;
+}
+
 /* formatting for the too slow text in the distractor task */
 .distractor-timeout-msg {
   color: red;
