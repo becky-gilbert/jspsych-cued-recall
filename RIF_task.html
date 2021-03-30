@@ -224,7 +224,7 @@
             var digits = jsPsych.randomization.sampleWithReplacement([1,2,3,4,5,6],2);
             return '<span class="distractor-stim left">'+digits[0]+'</span><span class="distractor-stim right">'+digits[1]+'</span>'
         },
-        //prompt: '<span class="left">f = same</span><span class="right">j = different</span>',
+        prompt: '<span class="left top">f = same</span><span class="right top">j = different</span>',
         choices: ['f','j'],
         trial_duration: 2000,
         data: {task_part: 'distractor_task'},
