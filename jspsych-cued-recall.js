@@ -285,7 +285,7 @@ jsPsych.plugins['cued-recall'] = (function () {
         html += '</div>';
 
         if (trial.mistake_fn !== null) {
-            html += '<div id="jspsych-cued-recall-mistake" style="margin-top:5px;margin-bottom:5px;color:red;height:2.2em;line-height:1.1;overflow:auto;"></div>';
+            html += '<div id="jspsych-cued-recall-mistake" style="margin-top:5px;margin-bottom:5px;color:red;height:2.5em;line-height:1.1;overflow:auto;"></div>';
         }
 
         if (trial.prompt !== "" && trial.prompt_location == "below") {
