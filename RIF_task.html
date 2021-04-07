@@ -252,15 +252,35 @@
             }
         }
     };
-    var iti = {
+    var distractor_iti = {
         type: 'html-keyboard-response',
-        stimulus: '',
-        choices: jsPsych.NO_KEYS,
+        stimulus: '<span class="distractor-stim left" style="visibility:hidden;">X</span><span class="distractor-stim right" style="visibility:hidden;">X</span>',
+        prompt: '<span class="left top">f = same</span><span class="right top">j = different</span>',
+        choices: ['f','j'],
         data: {task_part: 'distractor_ITI'},
+        response_ends_trial: true,
         trial_duration: function() {return jsPsych.randomization.sampleWithoutReplacement(distractor_ITIs,1)[0];}
     };
+    var multiple_response_message = {
+        type: 'html-keyboard-response',
+        stimulus: '<span class="distractor-timeout-msg">Please submit only one response per stimulus.</span>',
+        trial_duration: 3000,
+        choices: jsPsych.NO_KEYS,
+        data: {task_part: 'distractor_mult_resp_msg'}
+    };
+    var distractor_multiple_response_conditional = {
+        timeline: [multiple_response_message],
+        conditional_function: function() {
+            var last_trial = jsPsych.data.getLastTrialData().values()[0];
+            if (last_trial.task_part == "distractor_ITI" && last_trial.key_press !== null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
     var distractor_procedure = {
-        timeline: [distractor_trial, response_timeout_conditional, iti],
+        timeline: [distractor_trial, response_timeout_conditional, distractor_iti, distractor_multiple_response_conditional],
         loop_function: function() {
             var curr_time = performance.now();
             if (curr_time - distractor_start_time >= distractor_task_duration) {
