@@ -328,9 +328,10 @@
                 validation_message: 'Please enter a single number between 1 and 6.'
             }];
         },
+        preamble: '<span style="display: inline-block;transform:translate(-50%,0px);">1 = dislike it very much</span>'+
+          '<span style="display: inline-block;transform:translate(50%,0px);">6 = like it very much</span>',
         trial_duration: like_judgment_timeout,
         show_submit_button: false,
-        post_trial_gap: inter_trial_interval,
         data: {
             task_part: 'like_judgment',
             condition: condition, 
@@ -343,6 +344,28 @@
         on_finish: function(data) {
             var responses = JSON.parse(data.responses);
             data.like_judgment = responses.like_judgment;
+        }
+    };
+    var like_judgment_iti = {
+        type: 'html-keyboard-response',
+        stimulus: '<div><span style="display: inline-block;transform:translate(-50%,0px);">1 = dislike it very much</span>'+
+          '<span style="display: inline-block;transform:translate(50%,0px);">6 = like it very much</span></div>'+
+          '<div style="visibility:hidden;margin:2em 0em;"><p><span class="like-judgment-stim">X</span></p><input type="text" id="input-0" size="1"></div>'+
+          '<input type="submit" class="jspsych-btn" style="visibility:hidden;" disabled>',
+        choices: jsPsych.ALL_KEYS,
+        data: {task_part: 'like_judgment_ITI'},
+        response_ends_trial: true,
+        trial_duration: inter_trial_interval
+    };
+    var like_judgment_multiple_response_conditional = {
+        timeline: [multiple_response_message],
+        conditional_function: function() {
+            var last_trial = jsPsych.data.getLastTrialData().values()[0];
+            if (last_trial.task_part == "like_judgment_ITI" && last_trial.key_press !== null) {
+                return true;
+            } else {
+                return false;
+            }
         }
     };
 
@@ -366,7 +389,7 @@
 
     // loop over the like_judgment_stimuli array
     var like_judgment_procedure = {
-        timeline: [like_judgment_trial],
+        timeline: [like_judgment_trial, like_judgment_iti, like_judgment_multiple_response_conditional],
         timeline_variables: like_judgment_stimuli,
         sample: {
             type: 'without-replacement',
