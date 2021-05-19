@@ -1,0 +1,8 @@
+/* 
+adjust formatting for text responses in textboxes (survey-text trials) 
+input[type=text] is for single-line textboxes, textarea is for multi-line textboxes
+*/
+#jspsych-survey-text-form input[type=text], #jspsych-survey-text-form textarea {
+  font-family: 'Open Sans', 'Arial', sans-serif;
+  font-size: 14px;
+}
