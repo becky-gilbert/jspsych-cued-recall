@@ -12,8 +12,9 @@
   opacity: 0.3;
 } */
 
-/* formatting for response box text in the retrieval and like judgment phases */
-#input-0 {
+/* formatting for response box text in the retrieval phase (.jspsych-cued-recall-response) 
+and like judgment phase (#jspsych-survey-text-validation-form) */
+.jspsych-cued-recall-response, #jspsych-survey-text-validation-form #input-0 {
   font-size: 25px;
   text-align: center;
   padding: 4px 4px;
