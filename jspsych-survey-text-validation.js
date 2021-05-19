@@ -1,5 +1,5 @@
 /**
- * jspsych-survey-text
+ * jspsych-survey-text-validation
  * a jspsych plugin for free response survey questions
  *
  * Josh de Leeuw
@@ -141,9 +141,9 @@ jsPsych.plugins['survey-text-validation'] = (function() {
     }
     // start form
     if (trial.autocomplete) {
-      html += '<form id="jspsych-survey-text-form">';
+      html += '<form id="jspsych-survey-text-validation-form">';
     } else {
-      html += '<form id="jspsych-survey-text-form" autocomplete="off">';
+      html += '<form id="jspsych-survey-text-validation-form" autocomplete="off">';
     }
     // generate question order
     var question_order = [];
@@ -197,7 +197,7 @@ jsPsych.plugins['survey-text-validation'] = (function() {
                         // also remove an invalid/error class
                     }
                 }
-                display_element.querySelector('#jspsych-survey-text-form').checkValidity();
+                display_element.querySelector('#jspsych-survey-text-validation-form').checkValidity();
             });
         }
     }
@@ -205,7 +205,7 @@ jsPsych.plugins['survey-text-validation'] = (function() {
     // backup in case autofocus doesn't work
     display_element.querySelector('#input-'+question_order[0]).focus();
 
-    display_element.querySelector('#jspsych-survey-text-form').addEventListener('submit', function(e) {
+    display_element.querySelector('#jspsych-survey-text-validation-form').addEventListener('submit', function(e) {
       e.preventDefault();
       // measure response time
       var endTime = performance.now();
@@ -215,7 +215,7 @@ jsPsych.plugins['survey-text-validation'] = (function() {
       var question_data = {};
       
       // show any custom validation messages
-      display_element.querySelector('#jspsych-survey-text-form').reportValidity();
+      display_element.querySelector('#jspsych-survey-text-validation-form').reportValidity();
 
       for(var index=0; index < trial.questions.length; index++){
         var id = "Q" + index;
@@ -230,7 +230,7 @@ jsPsych.plugins['survey-text-validation'] = (function() {
                 if (trial.trial_duration !== null) {
                   jsPsych.pluginAPI.clearAllTimeouts();
                   trial_timeout = jsPsych.pluginAPI.setTimeout(function() {
-                    display_element.querySelector('#jspsych-survey-text-form').requestSubmit();
+                    display_element.querySelector('#jspsych-survey-text-validation-form').requestSubmit();
                   }, trial.trial_duration);
                 }
                 return;
@@ -264,9 +264,9 @@ jsPsych.plugins['survey-text-validation'] = (function() {
     var startTime = performance.now();
     if (trial.trial_duration !== null) {
       // turn off automatic form validation, so that we can detect every submit form attempt (and reset the timer if necessary)
-      display_element.querySelector('#jspsych-survey-text-form').noValidate = true;
+      display_element.querySelector('#jspsych-survey-text-validation-form').noValidate = true;
       trial_timeout = jsPsych.pluginAPI.setTimeout(function() {
-        display_element.querySelector('#jspsych-survey-text-form').requestSubmit();
+        display_element.querySelector('#jspsych-survey-text-validation-form').requestSubmit();
       }, trial.trial_duration);
     }
   };
