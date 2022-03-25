@@ -202,8 +202,8 @@ jsPsych.plugins['cued-recall'] = (function () {
             response_required_message: {
                 type: jsPsych.plugins.parameterType.HTML_STRING,
                 pretty_name: 'Response required message',
-                default: '<p>Please enter a response.<p>',
-                description: 'Message that should be shown if a participant attempts to submit an empty response.'
+                default: null,
+                description: 'Message that should be shown if a participant attempts to submit an empty response. If null, no message is shown.'
             },
             mistake_fn: {
                 type: jsPsych.plugins.parameterType.FUNCTION,
@@ -336,12 +336,14 @@ jsPsych.plugins['cued-recall'] = (function () {
         }
 
         function print_response() {
-            var resp_time = performance.now() - response_start_time;
             var current_response = document.getElementById('jspsych-cued-recall-response-0').value.trim();
-            var resp = {response: current_response, rt: resp_time};
-            answers.push(resp);
-            display_element.innerHTML += current_response+'<br/>';
-            document.getElementById('jspsych-cued-recall-response-0').focus();
+            if (current_response !== '') {
+                var resp_time = performance.now() - response_start_time;
+                var resp = {response: current_response, rt: resp_time};
+                answers.push(resp);
+                display_element.innerHTML += current_response+'<br/>';
+                document.getElementById('jspsych-cued-recall-response-0').focus();
+            } 
             response_start_time = performance.now();
         }
                 
@@ -388,7 +390,9 @@ jsPsych.plugins['cued-recall'] = (function () {
                 response_start_time = performance.now(); // get a new start time, in case we want to record an RT starting from when the mistake fn is called
                 if (trial.mistake_fn !== null) {
                     if (trial.response_required_for_check && current_response == '') {
-                        document.getElementById('jspsych-cued-recall-mistake').innerHTML = trial.response_required_message;
+                        if (trial.response_required_message !== null) {
+                            document.getElementById('jspsych-cued-recall-mistake').innerHTML = trial.response_required_message;
+                        }
                     } else {
                         trial.mistake_fn(current_response,current_solution);
                     }
