@@ -223,6 +223,13 @@ jsPsych.plugins['cued-recall'] = (function () {
                 'comparison should be case-sensitive. If true, then the two responses will be compared exactly as given, and will '+
                 'not match if the case differs. If false (the default), both responses will be converted to lowercase before '+
                 'the comparison is made.'
+            },
+            content_location: {
+                type: jsPsych.plugins.parameterType.STRING,
+                pretty_name: 'Content location',
+                default: null,
+                description: 'Margin-top CSS value to be used for the jsPsych trial content. This should be a string and the units can be pixels, e.g. "10px" '+
+                'or a percentage of the viewport height, e.g. "10vh". If null, then the trial will use auto margins for vertical centering.'
             }
         }
     };
@@ -251,6 +258,11 @@ jsPsych.plugins['cued-recall'] = (function () {
         if (trial.element_color !== null) {
             el_color = trial.element_color;
             document.getElementsByTagName('body')[0].style.color = el_color;
+        }
+
+        // change content position, if necessary
+        if (trial.content_location !== null) {
+            document.getElementById('jspsych-content').style.marginTop = trial.content_location;
         }
 
         var elements = trial.stimulus.split('%');
@@ -311,6 +323,11 @@ jsPsych.plugins['cued-recall'] = (function () {
             ' id="jspsych-cued-recall-submit" style="color: inherit; background-color: inherit;">'+
             trial.submit_button_label+'</button></div>';
         }
+
+        // add div for responses, if they're being printed
+        if (trial.print_responses) {
+            html += '<div id="jspsych-cued-recall-print-responses"></div>'
+        }
         html += '</div>';
 
         display_element.innerHTML = html;
@@ -336,13 +353,18 @@ jsPsych.plugins['cued-recall'] = (function () {
         }
 
         function print_response() {
-            var current_response = document.getElementById('jspsych-cued-recall-response-0').value.trim();
+            var resp_box = document.getElementById('jspsych-cued-recall-response-0');
+            var current_response = resp_box.value.trim();
             if (current_response !== '') {
                 var resp_time = performance.now() - response_start_time;
                 var resp = {response: current_response, rt: resp_time};
                 answers.push(resp);
-                display_element.innerHTML += current_response+'<br/>';
-                document.getElementById('jspsych-cued-recall-response-0').focus();
+                //display_element.innerHTML += current_response+'<br/>';
+                var resp_div = document.getElementById('jspsych-cued-recall-print-responses');
+                resp_div.innerHTML = current_response + '<br/>' + resp_div.innerHTML;
+                // reset response box and focus
+                resp_box.value = "";
+                resp_box.focus();
             } 
             response_start_time = performance.now();
         }
@@ -416,6 +438,7 @@ jsPsych.plugins['cued-recall'] = (function () {
             jsPsych.pluginAPI.cancelAllKeyboardResponses();
             // clear display
             display_element.innerHTML = '';
+            document.getElementById('jspsych-content').style.marginTop = 'auto';
             // reset any changes to the body element's style
             document.getElementsByTagName('body')[0].style.backgroundColor = "unset";
             document.getElementsByTagName('body')[0].style.color = "unset";
