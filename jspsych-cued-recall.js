@@ -192,6 +192,19 @@ jsPsych.plugins['cued-recall'] = (function () {
                 description: 'Boolean value indicating if the answers given by participants should be compared against a '+
                 'correct solution given in the stimulus text (between %% signs) after the button was clicked.'
             },
+            response_required_for_check: {
+                type: jsPsych.plugins.parameterType.BOOL,
+                pretty_name: 'Response required to check',
+                default: false,
+                description: 'If true, and if check_answers is true, then the response textbox must not be empty (i.e. it must contain at least 1 character) '+
+                'to trigger the mistake_fn. If an empty response is submitted, it will trigger the response_required_message.'
+            },
+            response_required_message: {
+                type: jsPsych.plugins.parameterType.HTML_STRING,
+                pretty_name: 'Response required message',
+                default: '<p>Please enter a response.<p>',
+                description: 'Message that should be shown if a participant attempts to submit an empty response.'
+            },
             mistake_fn: {
                 type: jsPsych.plugins.parameterType.FUNCTION,
                 pretty_name: 'Mistake function',
@@ -374,7 +387,11 @@ jsPsych.plugins['cued-recall'] = (function () {
             } else {
                 response_start_time = performance.now(); // get a new start time, in case we want to record an RT starting from when the mistake fn is called
                 if (trial.mistake_fn !== null) {
-                    trial.mistake_fn(current_response,current_solution);
+                    if (trial.response_required_for_check && current_response == '') {
+                        document.getElementById('jspsych-cued-recall-mistake').innerHTML = trial.response_required_message;
+                    } else {
+                        trial.mistake_fn(current_response,current_solution);
+                    }
                 }
                 answers_correct = true;
             }  
